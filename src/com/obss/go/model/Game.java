@@ -14,6 +14,15 @@ import com.obss.go.util.Services;
 import com.obss.go.util.Utils;
 
 
+/**
+ * @author omerg
+ * 
+ * Single instance of game class represents the state of the game. 
+ * The representation includes players, cells and information
+ * about the game`s progress, i.e. it contains gameEnded state,
+ * active player and logs about taken actions.
+ *
+ */
 public class Game {
 	
 	//logger
@@ -23,8 +32,16 @@ public class Game {
 	private static final Player blackPlayer = new Player(CELL_STATUS.BLACK);
 	private static final Player whitePlayer = new Player(CELL_STATUS.WHITE);
 	
+    /**
+     * All the cells on the board
+     */
     private static final Map<String, Cell> cells = new LinkedHashMap<String, Cell>();
-    
+        
+    /**
+     * As the game progresses and stones with same color become
+     * neighbors to each other, the new stone group which they form
+     * is stored in the <i>groupMap</i> HashMap.
+     */
     private static Map<Integer, StoneGroup> groupMap = new HashMap<Integer, StoneGroup>();
     
 	static {
