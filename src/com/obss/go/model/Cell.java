@@ -16,14 +16,37 @@ import com.obss.go.api.Constants.CELL_X;
 import com.obss.go.api.Constants.CELL_Y;
 import com.obss.go.util.GamePlayUtils;
 
+/**
+ * @author omerg
+ * 
+ * Cell object both visually and logically represents the cell
+ * on the game board.
+ * 
+ * It keeps game logic data such as the coordinates within the 
+ * board, stone existence and cellGroup Id as well as 
+ * mouseHighlighted state of the visual representation.
+ *
+ */
 public class Cell extends Rectangle implements EventListener {
 	
 	//logger
 	private static final Logger logger = Logger.getLogger("Cell");
 
+	//coordinates
 	private CELL_X x;
 	private CELL_Y y;
+	
+	//cell status
 	private CELL_STATUS status = CELL_STATUS.EMPTY;
+	
+	
+	/**
+	 * Given a player, if placing a stone in a cell puts the 
+	 * game in atari
+	 * 
+	 * The <i>CELL_STATUS</i> can either be <i>BLACK</i> or 
+	 * <i>WHITE</i>
+	 */
 	private CELL_STATUS atariOf = null;
 	private Boolean highlighted = false;
 	private Integer groupId;
@@ -188,47 +211,7 @@ public class Cell extends Rectangle implements EventListener {
 	}
 	
 
-	/**
-	 * 
-	 * Check if a given cell breathes
-	 * 
-	 * @param c
-	 * @return
-	 */
-	public Boolean isAvailableFor(Player player) {
 
-		List<Cell> neighboringCellsList = GamePlayUtils.getNeighboringCells(this);
-		
-		//iterate neighboring cells
-		for (Cell neighboringCell : neighboringCellsList) {
-			
-			//return true if any of the neighboring cells is empty
-			if (Constants.CELL_STATUS.EMPTY.equals(neighboringCell.getStatus())) {
-				logger.debug("Cell: " + this.toString() + " breathes from position: " + neighboringCell.toString());
-				return true;
-			} 
-			
-			//return true if the cell color is same with player color
-			if (neighboringCell.getStatus() == player.getColor()) {
-				return true;
-			}
-		}
-		
-		//finally check for "atari" conditions
-		//iterate neighboring cells
-		for (Cell neighboringCell : neighboringCellsList) {
-			
-			//get neighboring stone group
-			StoneGroup stoneGroup = Game.getGroupMap().get(neighboringCell.getGroupId());
-			
-			if (!stoneGroup.isGroupBreathingIfPlayed(this, player)) {
-				logger.info("Atari situation enables playing in position: " + this.toString());
-				return true;
-			}
-		}
-		
-		return false;
-	}
 
 	public void setAtariOf(CELL_STATUS atariOf) {
 		this.atariOf = atariOf;

@@ -35,39 +35,6 @@ public class StoneGroup {
 		return cellList;
 	}
 
-	/**
-	 * 
-	 * check if stoneGroup breathes
-	 * 
-	 * @return Boolean
-	 */
-	public Boolean isGroupBreathing() {
-		for (Cell listMemberCell : getCellList()) {
-			if (listMemberCell		.isBreathing()) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	public Boolean isGroupBreathingIfPlayed(Cell c, Player p) {
-			
-		Boolean isBreathing = false;
-		
-		//apply game played assumption
-		Game.getCells().get(c.toString()).setStatus(p.getColor());
-		
-		for (Cell listMemberCell : getCellList()) {
-			if (listMemberCell.isBreathing()) {
-				isBreathing = true;
-			}
-		}
-		
-		//rollBack
-		Game.getCells().get(c.toString()).setStatus(CELL_STATUS.EMPTY);
-		
-		return isBreathing;
-	}
 
 	public void setColor(CELL_STATUS color) {
 		this.color = color;

@@ -22,6 +22,7 @@ import com.obss.go.model.Game;
 import com.obss.go.model.StoneGroup;
 import com.obss.go.model.event.TurnPlayEvent;
 import com.obss.go.model.event.listener.GoEventListener;
+import com.obss.go.util.GamePlayUtils;
 
 public class GamePlayService implements IGamePlayService, EventListener {
 
@@ -52,7 +53,7 @@ public class GamePlayService implements IGamePlayService, EventListener {
 		}
 		
 		//check if cell is available for given player
-		if (Game.getCells().get(activeCellKey).isAvailableFor(Game.getActivePlayer()) == false) {
+		if (GamePlayUtils.isCellAvailableFor(Game.getCells().get(activeCellKey), Game.getActivePlayer()) == false) {
 			throw new CellNotBreathingException(x, y);
 		}
 		
@@ -105,7 +106,7 @@ public class GamePlayService implements IGamePlayService, EventListener {
 			Map.Entry<Integer, StoneGroup> stoneGroupEntry = (Map.Entry<Integer, StoneGroup>) it.next();
 
 			
-			if (stoneGroupEntry.getValue().getColor().equals(groupColor) && stoneGroupEntry.getValue().isGroupBreathing() == false) {			
+			if (stoneGroupEntry.getValue().getColor().equals(groupColor) && GamePlayUtils.isGroupBreathing(stoneGroupEntry.getValue()) == false) {			
 				
 				//if the group is not breathing, clean it
 				for (Cell c : stoneGroupEntry.getValue().getCellList()) {
