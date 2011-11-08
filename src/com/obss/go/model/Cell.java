@@ -81,7 +81,7 @@ public class Cell extends Rectangle {
 				else {
 					StoneGroup existingGroup = Game.getGroupMap().get(c.getGroupId());
 					if (existingGroup.getGroupId().equals(this.getGroupId()) == false) {
-						existingGroup.merge(this.getGroupId());
+						GamePlayUtils.mergeGroups(this.getGroupId(), existingGroup.getGroupId());
 					}
 				}
 			}

@@ -63,7 +63,7 @@ public class StoneGroup {
 	public Integer getGroupId() {
 		return groupId;
 	}
-	
+
 
 	@Override
 	public int hashCode() {
@@ -88,28 +88,6 @@ public class StoneGroup {
 		} else if (!groupId.equals(other.groupId))
 			return false;
 		return true;
-	}
-
-	/**
-	 * 
-	 * merge this group with the group identified with the given group ID
-	 * the group with given id is removed from GroupMap at the and of the 
-	 * transaction
-	 * 
-	 * @param groupId
-	 */
-	public void merge(Integer groupId) {
-		StoneGroup groupToMerge = Game.getGroupMap().get(groupId);
-		
-		//merge members of given group to members of this group
-		this.getCellList().addAll(groupToMerge.getCellList());
-		
-		//reset group IDs of cell list members
-		this.setGroupId(this.groupId);
-		
-		//remove merged group
-		Game.getGroupMap().remove(groupId);
-		
 	}
 
 }

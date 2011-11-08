@@ -294,4 +294,26 @@ public class GamePlayUtils {
 
 		}
 	}
+	
+	/**
+	 * 
+	 * merge this group with the group identified with the given group ID
+	 * the group with given id is removed from GroupMap at the and of the 
+	 * transaction
+	 * 
+	 * @param groupId1
+	 */
+	public static void mergeGroups(Integer groupId1, Integer groupId2) {
+		StoneGroup groupToMerge = Game.getGroupMap().get(groupId2);
+		
+		//merge members of given group to members of this group
+		Game.getGroupMap().get(groupId1).getCellList().addAll(groupToMerge.getCellList());
+		
+		//reset group IDs of cell list members
+		Game.getGroupMap().get(groupId1).setGroupId(groupId1);
+		
+		//remove merged group
+		Game.getGroupMap().remove(groupToMerge.getGroupId());
+		
+	}
 }
