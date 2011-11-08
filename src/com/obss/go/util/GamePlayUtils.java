@@ -1,7 +1,5 @@
 package com.obss.go.util;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,9 +20,6 @@ public class GamePlayUtils {
 
 	// logger
 	private static final Logger logger = Logger.getLogger("GamePlayUtils");
-
-	public void drawStone(Graphics2D g2, CELL_X x, CELL_Y y, Color c) {
-	}
 
 	public static Point getCellPoint(CELL_X x, CELL_Y y) {
 		int px = Constants.TABLE_MARGIN - (Constants.CELL_SIDE_WIDTH / 2)
@@ -145,6 +140,19 @@ public class GamePlayUtils {
 		}
 		return highlighedCell;
 	}
+	
+	/**
+	 * check if cell is empty
+	 * @param x
+	 * @param y
+	 * @return
+	 */
+	public static Boolean isCellEmpty(CELL_X x, CELL_Y y) {
+		if (CELL_STATUS.EMPTY.equals(Game.getCells().get(new Cell(x, y).toString()).getStatus()) == false) {
+			return false;
+		}
+		return true;
+	}
 
 	public static List<Cell> getNeighboringCells(Cell c) {
 
@@ -186,7 +194,7 @@ public class GamePlayUtils {
 
 	/**
 	 * 
-	 * Check if a given cell breathes
+	 * Check if a given cell is free to place stone fir a given player
 	 * 
 	 * @param c
 	 * @return
@@ -252,7 +260,9 @@ public class GamePlayUtils {
 	 * validation may be wrong. 
 	 * 
 	 * <p>This method pre-evaluates the game state that is expected
-	 * after turn would be taken.
+	 * after turn would be taken. This is done by bypassing the 
+	 * validations and performing the gamePlayed action temporarily
+	 * and reverting it if needed.
 	 * 
 	 * <p>If the action taken results in capturing enemy stones and
 	 * thus opens a breathing position to a previously non-

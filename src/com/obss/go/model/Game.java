@@ -1,16 +1,19 @@
 package com.obss.go.model;
 
+import java.util.EventListener;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+import javax.swing.event.EventListenerList;
 
 import org.apache.log4j.Logger;
 
 import com.obss.go.api.Constants;
 import com.obss.go.api.Constants.CELL_STATUS;
 import com.obss.go.exception.CellCoordinateOutOfBoundsException;
+import com.obss.go.model.event.listener.GoEventListener;
 import com.obss.go.util.GamePlayUtils;
-import com.obss.go.util.Services;
 import com.obss.go.util.Utils;
 
 
@@ -23,7 +26,7 @@ import com.obss.go.util.Utils;
  * active player and logs about taken actions.
  *
  */
-public class Game {
+public class Game implements EventListener {
 	
 	//logger
 	private static final Logger logger = Logger.getLogger("Game");
@@ -36,7 +39,10 @@ public class Game {
      * All the cells on the board
      */
     private static final Map<String, Cell> cells = new LinkedHashMap<String, Cell>();
-        
+       
+	//initialize event listener
+	private static EventListenerList listenerList = new EventListenerList();
+	
     /**
      * As the game progresses and stones with same color become
      * neighbors to each other, the new stone group which they form
@@ -59,8 +65,8 @@ public class Game {
 		}
 		   	
     	//players listen to Game() object.
-    	Services.getGamePlayService().addTurnPlayEventListener(Game.getBlackPlayer());
-    	Services.getGamePlayService().addTurnPlayEventListener(Game.getWhitePlayer());
+    	listenerList.add(GoEventListener.class, Game.getBlackPlayer());
+    	listenerList.add(GoEventListener.class, Game.getWhitePlayer());
 	}
 	
 	private static Boolean gameEnded = false;
@@ -130,5 +136,13 @@ public class Game {
 
 	public static Cell getKOCell() {
 		return KOCell;
+	}
+
+	public static EventListenerList getListenerList() {
+		return listenerList;
+	}
+
+	public static void setListenerList(EventListenerList listenerList) {
+		Game.listenerList = listenerList;
 	}
 }
