@@ -8,7 +8,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.geom.Line2D;
-import java.util.EventListener;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -23,7 +22,7 @@ import com.obss.go.exception.GoException;
 import com.obss.go.util.GamePlayUtils;
 import com.obss.go.util.Services;
 
-public class Board extends JPanel implements EventListener {
+public class Board extends JPanel {
 	
 	//logger
 	private static Logger logger = Logger.getLogger("Board");
