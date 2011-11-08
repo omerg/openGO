@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 import com.obss.go.api.Constants;
 import com.obss.go.api.Constants.CELL_STATUS;
 import com.obss.go.exception.CellCoordinateOutOfBoundsException;
+import com.obss.go.exception.NoActivePlayerException;
 import com.obss.go.model.event.listener.GoEventListener;
 import com.obss.go.util.GamePlayUtils;
 import com.obss.go.util.Utils;
@@ -118,12 +119,15 @@ public class Game implements EventListener {
 	/**
 	 * get player depending on active turn
 	 * @return Player
+	 * @throws NoActivePlayerException 
 	 */
-	public static Player getActivePlayer() {
+	public static Player getActivePlayer() throws NoActivePlayerException {
 		if (getBlackPlayer().getTurnActive()) {
 			return getBlackPlayer();
-		} else {
+		} else if (getWhitePlayer().getTurnActive()) {
 			return getWhitePlayer();
+		} else {
+			throw new NoActivePlayerException();
 		}
 	}
 
@@ -142,7 +146,4 @@ public class Game implements EventListener {
 		return listenerList;
 	}
 
-	public static void setListenerList(EventListenerList listenerList) {
-		Game.listenerList = listenerList;
-	}
 }

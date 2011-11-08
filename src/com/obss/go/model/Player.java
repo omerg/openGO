@@ -3,6 +3,7 @@ package com.obss.go.model;
 import org.apache.log4j.Logger;
 
 import com.obss.go.api.Constants.CELL_STATUS;
+import com.obss.go.exception.NoActivePlayerException;
 import com.obss.go.model.event.TurnPlayEvent;
 import com.obss.go.model.event.listener.GoEventListener;
 
@@ -42,7 +43,12 @@ public class Player implements GoEventListener {
 		
 		logger.info(getColor().toString() + " Player takes turn");
 		//set cell status with players color
-		Game.getCells().get(cellKey).setStatus(Game.getActivePlayer().getColor());
+		try {
+			Game.getCells().get(cellKey).setStatus(Game.getActivePlayer().getColor());
+		} catch (NoActivePlayerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		//new stone group data is stored by calling the following method:
 		Game.getCells().get(cellKey).setGroupId();

@@ -19,6 +19,7 @@ import com.obss.go.api.IGamePlayService;
 import com.obss.go.exception.CellNotBreathingException;
 import com.obss.go.exception.CellNotEmptyException;
 import com.obss.go.exception.KOException;
+import com.obss.go.exception.NoActivePlayerException;
 import com.obss.go.model.Cell;
 import com.obss.go.model.Game;
 import com.obss.go.model.StoneGroup;
@@ -35,7 +36,7 @@ public class GamePlayService implements IGamePlayService, EventListener {
     }
 
 	@Override
-	public void playTurn(CELL_X x, CELL_Y y) throws CellNotEmptyException, CellNotBreathingException, KOException {
+	public void playTurn(CELL_X x, CELL_Y y) throws CellNotEmptyException, CellNotBreathingException, KOException, NoActivePlayerException {
 
 		String activeCellKey = new Cell(x, y).toString();
 		
@@ -133,7 +134,13 @@ public class GamePlayService implements IGamePlayService, EventListener {
     	Object[] listeners = Game.getListenerList().getListenerList();
     	
     	//create turn play event
-    	TurnPlayEvent turnPlayEvent = new TurnPlayEvent( this, cellKey, Game.getActivePlayer());
+    	TurnPlayEvent turnPlayEvent;
+		try {
+			turnPlayEvent = new TurnPlayEvent( this, cellKey, Game.getActivePlayer());
+		} catch (NoActivePlayerException e) {
+			e.printStackTrace();
+			return;
+		}
                
         // Each listener occupies two elements - the first is the listener class
         // and the second is the listener instance
