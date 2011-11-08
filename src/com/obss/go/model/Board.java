@@ -89,6 +89,7 @@ public class Board extends JPanel {
 
 	}
 
+	@Override
 	public void paint(Graphics g) {
 		
 		Graphics2D g2 = (Graphics2D) g;

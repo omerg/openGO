@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
-import java.awt.event.MouseEvent;
-import java.util.EventListener;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -27,7 +25,7 @@ import com.obss.go.util.GamePlayUtils;
  * mouseHighlighted state of the visual representation.
  *
  */
-public class Cell extends Rectangle implements EventListener {
+public class Cell extends Rectangle {
 	
 	//logger
 	private static final Logger logger = Logger.getLogger("Cell");
@@ -135,13 +133,6 @@ public class Cell extends Rectangle implements EventListener {
 		return (Math.abs(xDiff - yDiff) == 1);
 	}
 
-	public void mouseOver(MouseEvent e) {
-		System.out.println("mouse pressed to cell");
-	}
-
-	public void mousePressed(MouseEvent e) {
-
-	}
 
 	public CELL_X getCellX() {
 		return x;
@@ -210,9 +201,6 @@ public class Cell extends Rectangle implements EventListener {
 		return groupId;
 	}
 	
-
-
-
 	public void setAtariOf(CELL_STATUS atariOf) {
 		this.atariOf = atariOf;
 	}
